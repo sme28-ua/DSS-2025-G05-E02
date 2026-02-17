@@ -9,6 +9,14 @@ class Transaccion extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'apuesta_id',
+        'billetera_id',
+        'tipo',
+        'monto',
+        'fecha'
+    ];
+
     public function billetera(){
         return $this->belongsTo(Billetera::class);
     }

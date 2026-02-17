@@ -9,9 +9,16 @@ class Operador extends Model
 {
     /** @use HasFactory<\Database\Factories\OperadorFactory> */
     use HasFactory;
+    
+    protected $fillable = [
+        'usuario_id',
+        'idTrabajador',
+        'rango',
+        'turno'
+    ];
 
     public function usuario(){
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(User::class);
     }
 
 }

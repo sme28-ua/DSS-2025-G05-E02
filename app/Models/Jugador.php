@@ -10,6 +10,12 @@ class Jugador extends Model
     /** @use HasFactory<\Database\Factories\JugadorFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'usuario_id',
+        'nivelVIP',
+        'puntosFidelidad'
+    ];
+
     public function usuario(){
         return $this->belongsTo(Usuario::class);
     }

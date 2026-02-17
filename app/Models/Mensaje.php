@@ -9,16 +9,25 @@ class Mensaje extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'chat_id',
+        'emisor_id',
+        'receptor_id',
+        'contenido',
+        'fechaHora',
+        'editado'
+    ];
+
     public function chat(){
         return $this->belongsTo(Chat::class);
     }
 
     public function emisor(){
-        return $this->belongsTo(Usuario::class, 'emisor_id');
+        return $this->belongsTo(User::class, 'emisor_id');
     }
 
     public function receptor(){
-        return $this->belongsTo(Usuario::class, 'receptor_id');
+        return $this->belongsTo(User::class, 'receptor_id');
     }
 }
 

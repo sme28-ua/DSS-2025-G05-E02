@@ -10,6 +10,12 @@ class Mesa extends Model
     /** @use HasFactory<\Database\Factories\MesaFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'nombre',
+        'categoria',
+        'estado'
+    ];
+
     public function apuestas(){
         return $this->hasMany(Apuesta::class);
     }

@@ -10,6 +10,12 @@ class Billetera extends Model
     /** @use HasFactory<\Database\Factories\BilleteraFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'jugador_id',
+        'saldoDisponible',
+        'moneda'
+    ];
+
     public function jugador(){
         return $this->belongsTo(Jugador::class);
     }

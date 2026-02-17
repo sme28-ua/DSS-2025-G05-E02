@@ -10,6 +10,15 @@ class Apuesta extends Model
     /** @use HasFactory<\Database\Factories\ApuestaFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'jugador_id',
+        'mesa_id',
+        'monto',
+        'cuota',
+        'estado',
+        'fecha'
+    ];
+
     public function jugador(){
         return $this->belongsTo(Jugador::class);
     }
