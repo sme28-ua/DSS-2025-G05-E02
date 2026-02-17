@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaccion extends Model
 {
-    /** @use HasFactory<\Database\Factories\TransaccionFactory> */
     use HasFactory;
+
+    public function billetera(){
+        return $this->belongsTo(Billetera::class);
+    }
+
+    public function apuesta(){
+        return $this->belongsTo(Apuesta::class);
+    }
 }
+

@@ -9,4 +9,9 @@ class Chat extends Model
 {
     /** @use HasFactory<\Database\Factories\ChatFactory> */
     use HasFactory;
+
+    public function mensajes(){
+        return $this->hasMany(Mensaje::class);
+    }
+
 }
