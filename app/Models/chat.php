@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Chat extends Model
+return new class extends Migration
 {
-    /** @use HasFactory<\Database\Factories\ChatFactory> */
-    use HasFactory;
+    public function up(): void
+    {
+        Schema::create('chats', function (Blueprint $table) {
 
-    protected $fillable = [
-        'nombre',
-        'fechaCreacion',
-        'activo'
-    ];
-
-    public function mensajes(){
-        return $this->hasMany(Mensaje::class);
+            $table->id();
+            $table->string('nombre');
+            $table->boolean('activo')->default(true);
+            $table->timestamps();
+        });
     }
 
-}
+    public function down(): void
+    {
+        Schema::dropIfExists('chats');
+    }
+};

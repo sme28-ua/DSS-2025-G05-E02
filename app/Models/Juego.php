@@ -1,22 +1,31 @@
 <?php
 
-namespace App\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class Juego extends Model
+return new class extends Migration
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'nombre',
-        'categoria',
-        'estado'
-    ];
-
-    public function apuestas()
+    public function up(): void
     {
-        return $this->hasMany(Apuesta::class);
+        Schema::create('juegos', function (Blueprint $table) {
+
+            $table->id();
+            $table->string('nombre');
+            $table->string('categoria');
+
+            $table->enum('estado', [
+                'abierta',
+                'cerrada',
+                'en_juego'
+            ])->default('abierta');
+
+            $table->timestamps();
+        });
     }
-}
+
+    public function down(): void
+    {
+        Schema::dropIfExists('juegos');
+    }
+};

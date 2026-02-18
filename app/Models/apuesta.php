@@ -1,34 +1,46 @@
 <?php
 
-namespace App\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Apuesta extends Model
+return new class extends Migration
 {
-    /** @use HasFactory<\Database\Factories\ApuestaFactory> */
-    use HasFactory;
+    public function up(): void
+    {
+        Schema::create('apuestas', function (Blueprint $table) {
 
-    protected $fillable = [
-        'jugador_id',
-        'mesa_id',
-        'monto',
-        'cuota',
-        'estado',
-        'fecha'
-    ];
+            $table->id();
 
-    public function jugador(){
-        return $this->belongsTo(Jugador::class);
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('juego_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->decimal('monto', 12, 2);
+            $table->decimal('cuota', 5, 2);
+
+            $table->enum('estado', [
+                'pendiente',
+                'ganada',
+                'perdida'
+            ])->default('pendiente');
+
+            $table->timestamp('fecha')->useCurrent();
+
+            $table->timestamps();
+
+            // 🔥 Nivel PRO
+            $table->index('estado');
+            $table->index('fecha');
+        });
     }
 
-    public function mesa(){
-        return $this->belongsTo(Mesa::class);
+    public function down(): void
+    {
+        Schema::dropIfExists('apuestas');
     }
-
-    public function transacciones(){
-        return $this->hasMany(Transaccion::class);
-    }
-
-}
+};

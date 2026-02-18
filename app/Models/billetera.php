@@ -1,27 +1,32 @@
 <?php
 
-namespace App\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Billetera extends Model
+return new class extends Migration
 {
-    /** @use HasFactory<\Database\Factories\BilleteraFactory> */
-    use HasFactory;
+    public function up(): void
+    {
+        Schema::create('billeteras', function (Blueprint $table) {
 
-    protected $fillable = [
-        'jugador_id',
-        'saldoDisponible',
-        'moneda'
-    ];
+            $table->id();
 
-    public function jugador(){
-        return $this->belongsTo(Jugador::class);
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            // 🔥 dinero SIEMPRE decimal
+            $table->decimal('saldoDisponible', 12, 2)->default(0);
+
+            $table->string('moneda')->default('EUR');
+
+            $table->timestamps();
+        });
     }
 
-    public function transacciones(){
-        return $this->hasMany(Transaccion::class);
+    public function down(): void
+    {
+        Schema::dropIfExists('billeteras');
     }
-
-}
+};
