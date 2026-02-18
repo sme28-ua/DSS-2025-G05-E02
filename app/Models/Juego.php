@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Billetera extends Model
+class Juego extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'saldoDisponible',
-        'moneda'
+        'nombre',
+        'categoria',
+        'estado'
     ];
 
-    public function user()
+    public function apuestas()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Apuesta::class);
     }
 }
