@@ -2,21 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Billetera extends Model
 {
+    /** @use HasFactory<\Database\Factories\BilleteraFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'jugador_id',
         'saldoDisponible',
         'moneda'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+    public function jugador(){
+        return $this->belongsTo(Jugador::class);
     }
+
+    public function transacciones(){
+        return $this->hasMany(Transaccion::class);
+    }
+
 }

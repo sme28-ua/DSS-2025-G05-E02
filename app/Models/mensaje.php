@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Mensaje extends Model
 {
@@ -18,18 +18,15 @@ class Mensaje extends Model
         'editado'
     ];
 
-    public function chat()
-    {
+    public function chat(){
         return $this->belongsTo(Chat::class);
     }
 
-    public function emisor()
-    {
+    public function emisor(){
         return $this->belongsTo(User::class, 'emisor_id');
     }
 
-    public function receptor()
-    {
+    public function receptor(){
         return $this->belongsTo(User::class, 'receptor_id');
     }
 }
