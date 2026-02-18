@@ -32,8 +32,8 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
-    {
-        Schema::dropIfExists('mensajes');
+    public function receptor(){
+        return $this->belongsTo(User::class, 'receptor_id');
     }
-};
+}
+
