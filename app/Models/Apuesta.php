@@ -1,46 +1,30 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Apuesta extends Model
 {
-    public function up(): void
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'juego_id',
+        'monto',
+        'cuota',
+        'estado',
+        'fecha'
+    ];
+
+    public function user()
     {
-        Schema::create('apuestas', function (Blueprint $table) {
-
-            $table->id();
-
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->foreignId('juego_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->decimal('monto', 12, 2);
-            $table->decimal('cuota', 5, 2);
-
-            $table->enum('estado', [
-                'pendiente',
-                'ganada',
-                'perdida'
-            ])->default('pendiente');
-
-            $table->timestamp('fecha')->useCurrent();
-
-            $table->timestamps();
-
-            
-            $table->index('estado');
-            $table->index('fecha');
-        });
+        return $this->belongsTo(User::class);
     }
 
-    public function down(): void
+    public function juego()
     {
-        Schema::dropIfExists('apuestas');
+        return $this->belongsTo(Juego::class);
     }
-};
+}

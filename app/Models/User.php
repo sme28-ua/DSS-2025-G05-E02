@@ -1,50 +1,54 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
 {
-    public function up(): void
+    use HasFactory, Notifiable;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'puntos_fidelidad',
+        'nivel_vip'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected function casts(): array
     {
-        Schema::create('users', function (Blueprint $table) {
-
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-
-            
-            $table->integer('puntos_fidelidad')->default(0);
-            $table->integer('nivel_vip')->default(0);
-            $table->enum('role', ['player','operator','admin'])->default('player');
-
-            $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
-        });
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 
-    public function down(): void
+
+    public function billetera()
     {
-        Schema::dropIfExists('sessions');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('users');
+        return $this->hasOne(Billetera::class);
     }
-};
+
+    public function apuestas()
+    {
+        return $this->hasMany(Apuesta::class);
+    }
+
+    public function mensajesEnviados()
+    {
+        return $this->hasMany(Mensaje::class, 'emisor_id');
+    }
+
+    public function mensajesRecibidos()
+    {
+        return $this->hasMany(Mensaje::class, 'receptor_id');
+    }
+}

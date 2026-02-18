@@ -16,7 +16,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            // 🔥 Mejora profesional
             $table->integer('puntos_fidelidad')->default(0);
             $table->integer('nivel_vip')->default(0);
             $table->enum('role', ['player','operator','admin'])->default('player');
