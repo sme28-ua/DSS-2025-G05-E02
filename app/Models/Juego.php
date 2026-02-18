@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Mesa extends Model
+class Juego extends Model
 {
-    /** @use HasFactory<\Database\Factories\MesaFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -16,8 +15,8 @@ class Mesa extends Model
         'estado'
     ];
 
-    public function apuestas(){
+    public function apuestas()
+    {
         return $this->hasMany(Apuesta::class);
     }
-
 }

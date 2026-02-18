@@ -6,31 +6,34 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('mensajes', function (Blueprint $table) {
+
             $table->id();
+
+            $table->foreignId('chat_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('emisor_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('receptor_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->text('contenido');
+
+            $table->boolean('editado')->default(false);
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::create('mensajes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('chat_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('emisor_id')->constrained('usuarios');
-            $table->foreignId('receptor_id')->constrained('usuarios');
-            $table->text('contenido');
-            $table->dateTime('fechaHora');
-            $table->boolean('editado')->default(false);
-            $table->timestamps();
-        });
+        Schema::dropIfExists('mensajes');
     }
 };
