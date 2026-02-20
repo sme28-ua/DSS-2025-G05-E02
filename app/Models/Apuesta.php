@@ -2,24 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Apuesta extends Model
 {
-    /** @use HasFactory<\Database\Factories\ApuestaFactory> */
     use HasFactory;
 
-    public function jugador(){
-        return $this->belongsTo(Jugador::class);
+    protected $fillable = [
+        'user_id',
+        'juego_id',
+        'monto',
+        'cuota',
+        'estado',
+        'fecha'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function mesa(){
-        return $this->belongsTo(Mesa::class);
+    public function juego()
+    {
+        return $this->belongsTo(Juego::class);
     }
-
-    public function transacciones(){
-        return $this->hasMany(Transaccion::class);
-    }
-
 }

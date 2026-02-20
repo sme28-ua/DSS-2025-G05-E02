@@ -6,28 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('billeteras', function (Blueprint $table) {
+
             $table->id();
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            // dinero SIEMPRE decimal
+            $table->decimal('saldoDisponible', 12, 2)->default(0);
+
+            $table->string('moneda')->default('EUR');
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::create('billeteras', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('jugador_id')->constrained()->cascadeOnDelete();
-            $table->double('saldoDisponible')->default(0);
-            $table->string('moneda')->default('EUR');
-            $table->timestamps();
-        });
+        Schema::dropIfExists('billeteras');
     }
 };

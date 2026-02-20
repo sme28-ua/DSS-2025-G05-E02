@@ -6,31 +6,41 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('apuestas', function (Blueprint $table) {
+
             $table->id();
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('juego_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->decimal('monto', 12, 2);
+            $table->decimal('cuota', 5, 2);
+
+            $table->enum('estado', [
+                'pendiente',
+                'ganada',
+                'perdida'
+            ])->default('pendiente');
+
+            $table->timestamp('fecha')->useCurrent();
+
             $table->timestamps();
+
+            
+            $table->index('estado');
+            $table->index('fecha');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::create('apuestas', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('jugador_id')->constrained();
-            $table->foreignId('mesa_id')->constrained();
-            $table->double('monto');
-            $table->double('cuota');
-            $table->string('estado');
-            $table->date('fecha');
-            $table->timestamps();
-        });
+        Schema::dropIfExists('apuestas');
     }
 };
