@@ -1,0 +1,15 @@
+<?php
+namespace Database\Seeders;
+use Illuminate\Database\Seeder;
+use App\Models\Chat;
+
+class ChatSeeder extends Seeder
+{
+    public function run(): void
+    {
+        Chat::create([
+            'nombre' => 'Sala Principal',
+            'activo' => true
+        ]);
+    }
+}
