@@ -74,3 +74,7 @@ Para falllos satánicos:
 1. composer install
 2. php artisan key:generate
 3. php artisan migrate:fresh --seed
+
+
+
+##Ejecutar Seeders: php artisan db:seed (Todo tiene que estar limpio, ejecutar comandos de limpieza)
