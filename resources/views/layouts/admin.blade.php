@@ -353,6 +353,121 @@
     </div>
   </div>
 </div>
+
+<!-- ======================== PAGE: ADMIN NOTIFICACION ======================== -->
+
+<div class="page" id="page-admin-notificaciones">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎰</div><span class="logo-text">Bookie 2.0</span><span class="logo-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Panel</div>
+      <button class="nav-item" onclick="goTo('dashboard')"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="nav-divider"></div>
+      <div class="sidebar-section">Gestión</div>
+      <button class="nav-item" onclick="goTo('usuarios')"><span class="nav-icon">👥</span> Usuarios</button>
+      <button class="nav-item" onclick="goTo('juegos')"><span class="nav-icon">🎮</span> Juegos</button>
+      <button class="nav-item" onclick="goTo('apuestas')"><span class="nav-icon">📋</span> Apuestas</button>
+      <button class="nav-item" onclick="goTo('billeteras')"><span class="nav-icon">💳</span> Billeteras</button>
+      <button class="nav-item active" onclick="goTo('notificaciones')"><span class="nav-icon">🔔</span> Notificaciones</button>
+      <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
+      <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
+      <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+    </nav>
+  </aside>
+  <div class="main">
+    <div class="topbar"><span class="topbar-title">Gestión de Notificaciones</span><input class="topbar-search" placeholder="🔍 Buscar..."><div class="user-chip"><div class="user-avatar">AD</div><span>Admin</span></div></div>
+    <div class="content">
+      <div class="page-header">
+        <div><div class="page-title">Notificaciones</div><div class="page-subtitle">Alertas y mensajes del sistema</div></div>
+        <button class="btn btn-primary" onclick="openNewModal('notificaciones')">＋ Nueva Notificación</button>
+      </div>
+      <div class="table-wrap">
+        <div class="toolbar">
+          <input class="input-sm" placeholder="🔍 Buscar título o usuario..." style="width:250px;" id="search-notificaciones" oninput="filterRender('notificaciones')">
+          <select class="input-sm" id="filter-tipo-n" onchange="filterRender('notificaciones')">
+            <option value="">Todos los tipos</option>
+            <option value="apuesta">Apuesta</option>
+            <option value="promo">Promo</option>
+            <option value="alerta">Alerta</option>
+            <option value="info">Info</option>
+          </select>
+          <select class="input-sm" id="filter-leido-n" onchange="filterRender('notificaciones')">
+            <option value="">Estado lectura</option>
+            <option value="true">Leídas</option>
+            <option value="false">No leídas</option>
+          </select>
+          <div class="toolbar-right"><span id="count-notificaciones"></span></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortRender('notificaciones','id',this)">ID ⇅</th>
+              <th>Usuario</th>
+              <th onclick="sortRender('notificaciones','tipo',this)">Tipo ⇅</th>
+              <th onclick="sortRender('notificaciones','titulo',this)">Título ⇅</th>
+              <th onclick="sortRender('notificaciones','leido',this)">Leído ⇅</th>
+              <th onclick="sortRender('notificaciones','fecha',this)">Fecha ⇅</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-notificaciones"></tbody>
+        </table>
+        <div class="pagination" id="pag-notificaciones"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-notificacion">
+  <div class="modal">
+    <h2 id="title-notificacion">Nueva Notificación</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">ID Usuario *</label>
+        <input type="number" class="form-control" id="n-user_id">
+        <div class="error-msg" id="err-n-user_id"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tipo *</label>
+        <select class="form-control" id="n-tipo">
+          <option value="alerta">Alerta</option>
+          <option value="promo">Promo</option>
+          <option value="apuesta">Apuesta</option>
+          <option value="info">Info</option>
+          <option value="mensaje">Mensaje</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Título *</label>
+      <input type="text" class="form-control" id="n-titulo">
+      <div class="error-msg" id="err-n-titulo"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mensaje</label>
+      <textarea class="form-control" id="n-mensaje" rows="3"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Leído</label>
+        <select class="form-control" id="n-leido">
+          <option value="false">No</option>
+          <option value="true">Sí</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fecha *</label>
+        <input type="date" class="form-control" id="n-fecha">
+        <div class="error-msg" id="err-n-fecha"></div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal('modal-notificacion')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitForm('notificaciones')">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ======================== PAGE: ADMIN APUESTAS ======================== -->
 <div class="page" id="page-admin-apuestas">
   <aside class="sidebar">
@@ -533,7 +648,7 @@
 <script>
 // =========================== STATE ===========================
 let state = {};
-['usuarios', 'settings','apuestas'].forEach(k => {
+['usuarios', 'settings','apuestas','notificaciones'].forEach(k => {
   state[k] = { page: 1, per: 6, sort: 'id', dir: 1, total: 0, lastPage: 1 };
 });
 let editing = {};
@@ -546,6 +661,7 @@ function goTo(page) {
   if (el) el.classList.add('active');
   if (page === 'usuarios') renderTable('usuarios');
   if (page === 'settings') renderTable('settings');
+  if (page === 'notificaciones') renderTable('notificaciones');
   if (page === 'apuestas') renderTable('apuestas');
   if (page === 'dashboard') loadDashboardStats();
 }
@@ -566,6 +682,14 @@ async function fetchData(key) {
     if (searchEl && searchEl.value) url += `&search=${encodeURIComponent(searchEl.value)}`;
     if (key === 'usuarios') { const vip = document.getElementById('filter-vip-u')?.value; if (vip && vip !== '') url += `&nivel_vip=${vip}`; }
     if (key === 'settings') { const act = document.getElementById('filter-activo-s')?.value; if (act && act !== '') url += `&activo=${act}`; }
+    
+    if (key === 'notificaciones') {
+        const tipo = document.getElementById('filter-tipo-n')?.value;
+        const leido = document.getElementById('filter-leido-n')?.value;
+        if (tipo && tipo !== '') url += `&tipo=${tipo}`;
+        if (leido && leido !== '') url += `&leido=${leido}`;
+    }
+    
     const response = await fetch(url);
     const data = await response.json();
     return data;
@@ -713,6 +837,25 @@ function rowsFor(key, slice) {
         ${actions}
       </tr>`;
     }
+
+    if (key === 'notificaciones') {
+      let tipoBadge = r.tipo === 'promo' ? '<span class="badge badge-gold">Promo</span>' : 
+                      (r.tipo === 'apuesta' ? '<span class="badge badge-success">Apuesta</span>' : '<span class="badge badge-info">' + r.tipo + '</span>');
+      let leidoBadge = r.leido ? '<span class="badge badge-success">Sí</span>' : '<span class="badge badge-danger">No</span>';
+      let userName = r.user ? r.user.name : 'User #' + r.user_id;
+      let fecha = r.fecha ? r.fecha.split(' ')[0] : '';
+
+      return `<tr>
+        <td>#${r.id}</td>
+        <td><strong>${userName}</strong></td>
+        <td>${tipoBadge}</td>
+        <td>${r.titulo}</td>
+        <td>${leidoBadge}</td>
+        <td>${fecha}</td>
+        ${actions}
+      </tr>`;
+    }
+
     return '';
   }).join('');
 }
@@ -739,6 +882,17 @@ async function editRecord(key, id) {
     const record = await response.json();
     editing[key] = id;
     
+    if (key === 'notificaciones') {
+      document.getElementById('title-notificacion').textContent = 'Editar Notificación';
+      document.getElementById('n-user_id').value = record.user_id;
+      document.getElementById('n-tipo').value = record.tipo;
+      document.getElementById('n-titulo').value = record.titulo;
+      document.getElementById('n-mensaje').value = record.mensaje || '';
+      document.getElementById('n-leido').value = record.leido ? 'true' : 'false';
+      document.getElementById('n-fecha').value = record.fecha ? record.fecha.split(' ')[0] : '';
+      openModal('modal-notificacion');
+    }
+
     if (key === 'usuarios') {
       document.getElementById('title-usuario').textContent = 'Editar Usuario';
       document.getElementById('u-nombre').value = record.name;
@@ -786,7 +940,23 @@ async function submitForm(key) {
     data = { name: nombre, email: email, puntos_fidelidad: parseInt(document.getElementById('u-puntos').value) || 0, nivel_vip: parseInt(document.getElementById('u-vip').value) || 0 };
     if (pw) data.password = pw;
   }
-  
+
+  if (key === 'notificaciones') {
+    const userId = parseInt(document.getElementById('n-user_id').value);
+    const tipo = document.getElementById('n-tipo').value;
+    const titulo = document.getElementById('n-titulo').value.trim();
+    const mensaje = document.getElementById('n-mensaje').value;
+    const leido = document.getElementById('n-leido').value === 'true';
+    const fecha = document.getElementById('n-fecha').value;
+
+    if (!userId) { setErr('n-user_id', 'err-n-user_id', 'Obligatorio'); valid = false; }
+    if (!titulo) { setErr('n-titulo', 'err-n-titulo', 'Obligatorio'); valid = false; }
+    if (!fecha) { setErr('n-fecha', 'err-n-fecha', 'Obligatorio'); valid = false; }
+
+    if (!valid) return;
+    data = { user_id: userId, tipo: tipo, titulo: titulo, mensaje: mensaje, leido: leido, fecha: fecha };
+  }
+
   if (key === 'settings') {
     const clave = document.getElementById('s-clave').value.trim();
     const valor = parseInt(document.getElementById('s-valor').value);
@@ -856,6 +1026,18 @@ function openNewModal(key) {
     document.getElementById('a-fecha').value = new Date().toISOString().split('T')[0];
     openModal('modal-apuesta');
   }
+
+  if (key === 'notificaciones') {
+    document.getElementById('title-notificacion').textContent = 'Nueva Notificación';
+    document.getElementById('n-user_id').value = '';
+    document.getElementById('n-tipo').value = 'alerta';
+    document.getElementById('n-titulo').value = '';
+    document.getElementById('n-mensaje').value = '';
+    document.getElementById('n-leido').value = 'false';
+    document.getElementById('n-fecha').value = new Date().toISOString().split('T')[0];
+    openModal('modal-notificacion');
+  }
+
 }
 
 // =========================== DASHBOARD ===========================
@@ -872,7 +1054,7 @@ async function loadDashboardStats() {
 }
 
 // =========================== INIT ===========================
-['usuarios', 'settings', 'apuestas'].forEach(k => renderTable(k));
+['usuarios', 'settings', 'apuestas','notificaciones'].forEach(k => renderTable(k));
 document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); }); });
 </script>
 </body>

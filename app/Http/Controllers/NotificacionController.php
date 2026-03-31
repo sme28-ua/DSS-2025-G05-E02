@@ -9,11 +9,15 @@ class NotificacionController extends Controller
 {
     public function getData(Request $request)
     {
-        $query = Notificacion::query();
+        // Cargamos la relación del usuario
+        $query = Notificacion::with('user');
         
         if ($request->has('search') && $request->search) {
-            $query->where('titulo', 'like', '%' . $request->search . '%')
-                  ->orWhere('usuario', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+            $query->where('titulo', 'like', '%' . $search . '%')
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('name', 'like', '%' . $search . '%');
+                  });
         }
         
         if ($request->has('tipo') && $request->tipo !== '') {
@@ -43,12 +47,12 @@ class NotificacionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'usuario' => 'required|string|max:255',
-            'tipo' => 'required|string|in:apuesta,promo,alerta',
+            'user_id' => 'required|exists:users,id',
+            'tipo' => 'required|string|in:apuesta,promo,alerta,info,mensaje',
             'titulo' => 'required|string|max:255',
-            'desc' => 'nullable|string',
+            'mensaje' => 'nullable|string',
             'leido' => 'boolean',
-            'fechaHora' => 'required|date',
+            'fecha' => 'required|date',
         ]);
         
         $notificacion = Notificacion::create($data);
@@ -61,24 +65,27 @@ class NotificacionController extends Controller
         $notificacion = Notificacion::findOrFail($id);
         
         $data = $request->validate([
-            'usuario' => 'sometimes|string|max:255',
-            'tipo' => 'sometimes|string|in:apuesta,promo,alerta',
+            'user_id' => 'sometimes|exists:users,id',
+            'tipo' => 'sometimes|string|in:apuesta,promo,alerta,info,mensaje',
             'titulo' => 'sometimes|string|max:255',
-            'desc' => 'nullable|string',
+            'mensaje' => 'nullable|string',
             'leido' => 'boolean',
-            'fechaHora' => 'sometimes|date',
+            'fecha' => 'sometimes|date',
         ]);
         
         $notificacion->update($data);
         
-        return response()->json(['success' => true, 'data' => $notificacion, 'message' => 'Notificación actualizada correctamente']);
+        return response()->json(['success' => true, 'data' => $notificacion, 'message' => 'Notificación actualizada']);
     }
     
     public function destroy($id)
     {
-        $notificacion = Notificacion::findOrFail($id);
-        $notificacion->delete();
-        
-        return response()->json(['success' => true, 'message' => 'Notificación eliminada correctamente']);
+        try {
+            $notificacion = Notificacion::findOrFail($id);
+            $notificacion->delete();
+            return response()->json(['success' => true, 'message' => 'Notificación eliminada']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al eliminar: ' . $e->getMessage()], 500);
+        }
     }
 }

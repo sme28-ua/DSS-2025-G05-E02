@@ -123,11 +123,11 @@ Route::prefix('admin')->group(function () {
 
 // --- RUTAS PARA NOTIFICACIONES ---
 Route::prefix('admin')->group(function () {
-    Route::get('/notificaciones/data', [NotificacionController::class, 'listar'])->name('admin.notificaciones.data');
-    Route::get('/notificaciones/{notificacion}', [NotificacionController::class, 'ver'])->name('admin.notificaciones.show');
-    Route::post('/notificaciones', [NotificacionController::class, 'crear'])->name('admin.notificaciones.store');
-    Route::put('/notificaciones/{notificacion}', [NotificacionController::class, 'actualizar'])->name('admin.notificaciones.update');
-    Route::delete('/notificaciones/{notificacion}', [NotificacionController::class, 'eliminar'])->name('admin.notificaciones.destroy');
+    Route::get('/notificaciones/data', [NotificacionController::class, 'getData'])->name('admin.notificaciones.data');
+    Route::get('/notificaciones/{notificacion}', [NotificacionController::class, 'show'])->name('admin.notificaciones.show');
+    Route::post('/notificaciones', [NotificacionController::class, 'store'])->name('admin.notificaciones.store');
+    Route::put('/notificaciones/{notificacion}', [NotificacionController::class, 'update'])->name('admin.notificaciones.update');
+    Route::delete('/notificaciones/{notificacion}', [NotificacionController::class, 'destroy'])->name('admin.notificaciones.destroy');
 });
 
 // --- RUTAS PARA CHATS ---
