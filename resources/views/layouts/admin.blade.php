@@ -468,6 +468,297 @@
   </div>
 </div>
 
+<!-- ======================== PAGE: ADMIN JUEGOS ======================== -->
+
+<div class="page" id="page-admin-juegos">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎰</div><span class="logo-text">Bookie 2.0</span><span class="logo-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Panel</div>
+      <button class="nav-item" onclick="goTo('dashboard')"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="nav-divider"></div>
+      <div class="sidebar-section">Gestión</div>
+      <button class="nav-item" onclick="goTo('usuarios')"><span class="nav-icon">👥</span> Usuarios</button>
+      <button class="nav-item" onclick="goTo('juegos')"><span class="nav-icon">🎮</span> Juegos</button>
+      <button class="nav-item" onclick="goTo('apuestas')"><span class="nav-icon">📋</span> Apuestas</button>
+      <button class="nav-item" onclick="goTo('billeteras')"><span class="nav-icon">💳</span> Billeteras</button>
+      <button class="nav-item" onclick="goTo('notificaciones')"><span class="nav-icon">🔔</span> Notificaciones</button>
+      <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
+      <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
+      <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
+      <button class="nav-item"><span class="nav-icon">🚪</span> Cerrar sesión</button>
+    </div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><span class="topbar-title">Gestión de Juegos</span><input class="topbar-search" placeholder="🔍 Buscar..."><div class="user-chip"><div class="user-avatar">AD</div><span>Admin</span></div></div>
+    <div class="content">
+      <div class="page-header"><div><div class="page-title">Juegos</div><div class="page-subtitle">Gestión de juegos disponibles</div></div><button class="btn btn-primary" onclick="openNewModal('juegos')">＋ Nuevo juego</button></div>
+      <div class="table-wrap">
+        <div class="toolbar">
+          <input class="input-sm" placeholder="🔍 Buscar por nombre o categoría..." style="width:250px;" id="search-juegos" oninput="filterRender('juegos')">
+          <select class="input-sm" id="filter-estado-j" onchange="filterRender('juegos')">
+            <option value="">Todos los estados</option>
+            <option value="abierta">Abierta</option>
+            <option value="cerrada">Cerrada</option>
+            <option value="en_juego">En juego</option>
+          </select>
+          <div class="toolbar-right"><span id="count-juegos"></span></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortRender('juegos','id',this)">ID <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('juegos','nombre',this)">Nombre <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('juegos','categoria',this)">Categoría <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('juegos','estado',this)">Estado <span class="sort-arrow">⇅</span></th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-juegos"></tbody>
+        </table>
+        <div class="pagination" id="pag-juegos"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PAGE: ADMIN BILLETERAS ======================== -->
+<div class="page" id="page-admin-billeteras">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎰</div><span class="logo-text">Bookie 2.0</span><span class="logo-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Panel</div>
+      <button class="nav-item" onclick="goTo('dashboard')"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="nav-divider"></div>
+      <div class="sidebar-section">Gestión</div>
+      <button class="nav-item" onclick="goTo('usuarios')"><span class="nav-icon">👥</span> Usuarios</button>
+      <button class="nav-item" onclick="goTo('juegos')"><span class="nav-icon">🎮</span> Juegos</button>
+      <button class="nav-item" onclick="goTo('apuestas')"><span class="nav-icon">📋</span> Apuestas</button>
+      <button class="nav-item active" onclick="goTo('billeteras')"><span class="nav-icon">💳</span> Billeteras</button>
+      <button class="nav-item" onclick="goTo('notificaciones')"><span class="nav-icon">🔔</span> Notificaciones</button>
+      <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
+      <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
+      <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
+      <button class="nav-item"><span class="nav-icon">🚪</span> Cerrar sesión</button>
+    </div>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <span class="topbar-title">Gestión de Billeteras</span>
+      <input class="topbar-search" placeholder="🔍 Buscar...">
+      <div class="user-chip"><div class="user-avatar">AD</div><span>Admin</span></div>
+    </div>
+    <div class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Billeteras</div>
+          <div class="page-subtitle">Gestión de saldos y monedas</div>
+        </div>
+        <button class="btn btn-primary" onclick="openNewModal('billeteras')">＋ Nueva billetera</button>
+      </div>
+      <div class="table-wrap">
+        <div class="toolbar">
+          <input class="input-sm" placeholder="🔍 Buscar por ID o moneda..." style="width:250px;" id="search-billeteras" oninput="filterRender('billeteras')">
+          <select class="input-sm" id="filter-moneda-b" onchange="filterRender('billeteras')">
+            <option value="">Todas las monedas</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+          </select>
+          <div class="toolbar-right"><span id="count-billeteras"></span></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortRender('billeteras','id',this)">ID <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('billeteras','saldoDisponible',this)">Saldo disponible <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('billeteras','moneda',this)">Moneda <span class="sort-arrow">⇅</span></th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-billeteras"></tbody>
+        </table>
+        <div class="pagination" id="pag-billeteras"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PAGE: ADMIN CHAT ======================== -->
+
+<div class="page" id="page-admin-chats">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎰</div><span class="logo-text">Bookie 2.0</span><span class="logo-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Panel</div>
+      <button class="nav-item" onclick="goTo('dashboard')"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="nav-divider"></div>
+      <div class="sidebar-section">Gestión</div>
+      <button class="nav-item" onclick="goTo('usuarios')"><span class="nav-icon">👥</span> Usuarios</button>
+      <button class="nav-item" onclick="goTo('juegos')"><span class="nav-icon">🎮</span> Juegos</button>
+      <button class="nav-item" onclick="goTo('apuestas')"><span class="nav-icon">📋</span> Apuestas</button>
+      <button class="nav-item" onclick="goTo('billeteras')"><span class="nav-icon">💳</span> Billeteras</button>
+      <button class="nav-item" onclick="goTo('notificaciones')"><span class="nav-icon">🔔</span> Notificaciones</button>
+      <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
+      <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
+      <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
+      <button class="nav-item"><span class="nav-icon">🚪</span> Cerrar sesión</button>
+    </div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><span class="topbar-title">Gestión de Chats</span><input class="topbar-search" placeholder="🔍 Buscar..."><div class="user-chip"><div class="user-avatar">AD</div><span>Admin</span></div></div>
+    <div class="content">
+      <div class="page-header"><div><div class="page-title">Chats</div><div class="page-subtitle">Gestión de salas y chats</div></div><button class="btn btn-primary" onclick="openNewModal('chats')">＋ Nuevo chat</button></div>
+      <div class="table-wrap">
+        <div class="toolbar">
+          <input class="input-sm" placeholder="🔍 Buscar por nombre..." style="width:250px;" id="search-chats" oninput="filterRender('chats')">
+          <select class="input-sm" id="filter-activo-c" onchange="filterRender('chats')">
+            <option value="">Todos</option>
+            <option value="true">Activos</option>
+            <option value="false">Inactivos</option>
+          </select>
+          <div class="toolbar-right"><span id="count-chats"></span></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortRender('chats','id',this)">ID <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('chats','nombre',this)">Nombre <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('chats','fechaCreacion',this)">Fecha creación <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('chats','activo',this)">Activo <span class="sort-arrow">⇅</span></th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-chats"></tbody>
+        </table>
+        <div class="pagination" id="pag-chats"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PAGE: ADMIN RANKINGS ======================== -->
+
+<div class="page" id="page-admin-rankings">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎰</div><span class="logo-text">Bookie 2.0</span><span class="logo-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Panel</div>
+      <button class="nav-item" onclick="goTo('dashboard')"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="nav-divider"></div>
+      <div class="sidebar-section">Gestión</div>
+      <button class="nav-item" onclick="goTo('usuarios')"><span class="nav-icon">👥</span> Usuarios</button>
+      <button class="nav-item" onclick="goTo('juegos')"><span class="nav-icon">🎮</span> Juegos</button>
+      <button class="nav-item" onclick="goTo('apuestas')"><span class="nav-icon">📋</span> Apuestas</button>
+      <button class="nav-item" onclick="goTo('billeteras')"><span class="nav-icon">💳</span> Billeteras</button>
+      <button class="nav-item" onclick="goTo('notificaciones')"><span class="nav-icon">🔔</span> Notificaciones</button>
+      <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
+      <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
+      <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
+      <button class="nav-item"><span class="nav-icon">🚪</span> Cerrar sesión</button>
+    </div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><span class="topbar-title">Gestión de Rankings</span><input class="topbar-search" placeholder="🔍 Buscar..."><div class="user-chip"><div class="user-avatar">AD</div><span>Admin</span></div></div>
+    <div class="content">
+      <div class="page-header"><div><div class="page-title">Rankings</div><div class="page-subtitle">Clasificación de usuarios</div></div><button class="btn btn-primary" onclick="openNewModal('rankings')">＋ Nuevo ranking</button></div>
+      <div class="table-wrap">
+        <div class="toolbar">
+          <input class="input-sm" placeholder="🔍 Buscar por user_id..." style="width:250px;" id="search-rankings" oninput="filterRender('rankings')">
+          <div class="toolbar-right"><span id="count-rankings"></span></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortRender('rankings','user_id',this)">User ID <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('rankings','posicion',this)">Posición <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('rankings','puntos',this)">Puntos <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('rankings','total_ganado',this)">Total ganado <span class="sort-arrow">⇅</span></th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-rankings"></tbody>
+        </table>
+        <div class="pagination" id="pag-rankings"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PAGE: ADMIN GANANCIAS ======================== -->
+<div class="page" id="page-admin-parametros-ganancia">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🎰</div><span class="logo-text">Bookie 2.0</span><span class="logo-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Panel</div>
+      <button class="nav-item" onclick="goTo('dashboard')"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="nav-divider"></div>
+      <div class="sidebar-section">Gestión</div>
+      <button class="nav-item" onclick="goTo('usuarios')"><span class="nav-icon">👥</span> Usuarios</button>
+      <button class="nav-item" onclick="goTo('juegos')"><span class="nav-icon">🎮</span> Juegos</button>
+      <button class="nav-item" onclick="goTo('apuestas')"><span class="nav-icon">📋</span> Apuestas</button>
+      <button class="nav-item" onclick="goTo('billeteras')"><span class="nav-icon">💳</span> Billeteras</button>
+      <button class="nav-item" onclick="goTo('notificaciones')"><span class="nav-icon">🔔</span> Notificaciones</button>
+      <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
+      <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
+      <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item active" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
+      <button class="nav-item"><span class="nav-icon">🚪</span> Cerrar sesión</button>
+    </div>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <span class="topbar-title">Parámetros de Ganancia</span>
+      <input class="topbar-search" placeholder="🔍 Buscar...">
+      <div class="user-chip"><div class="user-avatar">AD</div><span>Admin</span></div>
+    </div>
+    <div class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Parámetros de Ganancia</div>
+          <div class="page-subtitle">Configuración de multiplicadores y bonus</div>
+        </div>
+        <button class="btn btn-primary" onclick="openNewModal('parametros-ganancia')">＋ Nuevo parámetro</button>
+      </div>
+      <div class="table-wrap">
+        <div class="toolbar">
+          <div class="toolbar-right"><span id="count-parametros-ganancia"></span></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortRender('parametros-ganancia','id',this)">ID <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('parametros-ganancia','multiplicacion_por_juego',this)">Multiplicación por juego <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('parametros-ganancia','bonus_por_racha',this)">Bonus por racha <span class="sort-arrow">⇅</span></th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-parametros-ganancia"></tbody>
+        </table>
+        <div class="pagination" id="pag-parametros-ganancia"></div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ======================== PAGE: ADMIN APUESTAS ======================== -->
 <div class="page" id="page-admin-apuestas">
   <aside class="sidebar">
@@ -642,15 +933,147 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-juego">
+  <div class="modal">
+    <h2 id="title-juego">Nuevo Juego</h2>
+    <div class="form-group">
+      <label class="form-label">Nombre *</label>
+      <input type="text" class="form-control" id="j-nombre">
+      <div class="error-msg" id="err-j-nombre"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Categoría *</label>
+      <input type="text" class="form-control" id="j-categoria">
+      <div class="error-msg" id="err-j-categoria"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Estado *</label>
+      <select class="form-control" id="j-estado">
+        <option value="abierta">Abierta</option>
+        <option value="cerrada">Cerrada</option>
+        <option value="en_juego">En juego</option>
+      </select>
+      <div class="error-msg" id="err-j-estado"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal('modal-juego')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitForm('juegos')">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-billetera">
+  <div class="modal">
+    <h2 id="title-billetera">Nueva Billetera</h2>
+    <div class="form-group">
+      <label class="form-label">Saldo disponible *</label>
+      <input type="number" step="0.01" class="form-control" id="b-saldo">
+      <div class="error-msg" id="err-b-saldo"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Moneda *</label>
+      <select class="form-control" id="b-moneda">
+        <option value="EUR">EUR</option>
+        <option value="USD">USD</option>
+        <option value="GBP">GBP</option>
+      </select>
+      <div class="error-msg" id="err-b-moneda"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal('modal-billetera')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitForm('billeteras')">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-chat">
+  <div class="modal">
+    <h2 id="title-chat">Nuevo Chat</h2>
+    <div class="form-group">
+      <label class="form-label">Nombre *</label>
+      <input type="text" class="form-control" id="c-nombre">
+      <div class="error-msg" id="err-c-nombre"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Fecha creación *</label>
+      <input type="date" class="form-control" id="c-fecha">
+      <div class="error-msg" id="err-c-fecha"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Activo</label>
+      <select class="form-control" id="c-activo">
+        <option value="true">Sí</option>
+        <option value="false">No</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal('modal-chat')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitForm('chats')">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ranking">
+  <div class="modal">
+    <h2 id="title-ranking">Nuevo Ranking</h2>
+    <div class="form-group">
+      <label class="form-label">User ID *</label>
+      <input type="number" class="form-control" id="r-user_id">
+      <div class="error-msg" id="err-r-user_id"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Posición *</label>
+      <input type="number" class="form-control" id="r-posicion">
+      <div class="error-msg" id="err-r-posicion"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Puntos *</label>
+      <input type="number" class="form-control" id="r-puntos">
+      <div class="error-msg" id="err-r-puntos"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Total ganado *</label>
+      <input type="number" step="0.01" class="form-control" id="r-total_ganado">
+      <div class="error-msg" id="err-r-total_ganado"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal('modal-ranking')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitForm('rankings')">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-parametro-ganancia">
+  <div class="modal">
+    <h2 id="title-parametro-ganancia">Nuevo Parámetro</h2>
+    <div class="form-group">
+      <label class="form-label">Multiplicación por juego *</label>
+      <input type="number" step="0.01" class="form-control" id="pg-multiplicacion">
+      <div class="error-msg" id="err-pg-multiplicacion"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Bonus por racha *</label>
+      <input type="number" step="0.01" class="form-control" id="pg-bonus">
+      <div class="error-msg" id="err-pg-bonus"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeModal('modal-parametro-ganancia')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitForm('parametros-ganancia')">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-confirm"><div class="confirm-modal"><div class="confirm-icon">🗑️</div><h3>¿Eliminar registro?</h3><p id="confirm-text"></p><div><button class="btn" onclick="closeModal('modal-confirm')">Cancelar</button><button class="btn btn-danger" id="confirm-ok-btn">Sí, eliminar</button></div></div></div>
 <div id="toast"></div>
 
 <script>
 // =========================== STATE ===========================
 let state = {};
-['usuarios', 'settings','apuestas','notificaciones'].forEach(k => {
+['usuarios', 'settings', 'apuestas', 'notificaciones', 'juegos', 'billeteras', 'chats', 'rankings', 'parametros-ganancia'].forEach(k => {
   state[k] = { page: 1, per: 6, sort: 'id', dir: 1, total: 0, lastPage: 1 };
 });
+state['settings'].sort = 'clave';
+state['rankings'].sort = 'user_id';
 let editing = {};
 let deleteFn = null;
 
@@ -659,10 +1082,16 @@ function goTo(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-admin-' + page);
   if (el) el.classList.add('active');
+
   if (page === 'usuarios') renderTable('usuarios');
   if (page === 'settings') renderTable('settings');
   if (page === 'notificaciones') renderTable('notificaciones');
   if (page === 'apuestas') renderTable('apuestas');
+  if (page === 'juegos') renderTable('juegos');
+  if (page === 'billeteras') renderTable('billeteras');
+  if (page === 'chats') renderTable('chats');
+  if (page === 'rankings') renderTable('rankings');
+  if (page === 'parametros-ganancia') renderTable('parametros-ganancia');
   if (page === 'dashboard') loadDashboardStats();
 }
 
@@ -688,6 +1117,19 @@ async function fetchData(key) {
         const leido = document.getElementById('filter-leido-n')?.value;
         if (tipo && tipo !== '') url += `&tipo=${tipo}`;
         if (leido && leido !== '') url += `&leido=${leido}`;
+    }
+
+    if (key === 'juegos') {
+      const estado = document.getElementById('filter-estado-j')?.value;
+      if (estado && estado !== '') url += `&estado=${estado}`;
+    }
+    if (key === 'billeteras') {
+      const moneda = document.getElementById('filter-moneda-b')?.value;
+      if (moneda && moneda !== '') url += `&moneda=${moneda}`;
+    }
+    if (key === 'chats') {
+      const activo = document.getElementById('filter-activo-c')?.value;
+      if (activo && activo !== '') url += `&activo=${activo}`;
     }
     
     const response = await fetch(url);
@@ -727,13 +1169,37 @@ async function saveToAPI(key, data, id = null) {
             if (f === 'clave') setErr('s-clave', 'err-s-clave', result.errors[f][0]); 
             if (f === 'valor') setErr('s-valor', 'err-s-valor', result.errors[f][0]); 
           }
-          // AHORA SÍ MAPEA LOS ERRORES DE APUESTAS:
+          
           if (key === 'apuestas') {
             if (f === 'user_id') setErr('a-user_id', 'err-a-user_id', result.errors[f][0]);
             if (f === 'juego_id') setErr('a-juego_id', 'err-a-juego_id', result.errors[f][0]);
             if (f === 'monto') setErr('a-monto', 'err-a-monto', result.errors[f][0]);
             if (f === 'cuota') setErr('a-cuota', 'err-a-cuota', result.errors[f][0]);
             if (f === 'fecha') setErr('a-fecha', 'err-a-fecha', result.errors[f][0]);
+          }
+
+          if (key === 'juegos') {
+            if (f === 'nombre') setErr('j-nombre', 'err-j-nombre', result.errors[f][0]);
+            if (f === 'categoria') setErr('j-categoria', 'err-j-categoria', result.errors[f][0]);
+            if (f === 'estado') setErr('j-estado', 'err-j-estado', result.errors[f][0]);
+          }
+          if (key === 'billeteras') {
+            if (f === 'saldoDisponible') setErr('b-saldo', 'err-b-saldo', result.errors[f][0]);
+            if (f === 'moneda') setErr('b-moneda', 'err-b-moneda', result.errors[f][0]);
+          }
+          if (key === 'chats') {
+            if (f === 'nombre') setErr('c-nombre', 'err-c-nombre', result.errors[f][0]);
+            if (f === 'fechaCreacion') setErr('c-fecha', 'err-c-fecha', result.errors[f][0]);
+          }
+          if (key === 'rankings') {
+            if (f === 'user_id') setErr('r-user_id', 'err-r-user_id', result.errors[f][0]);
+            if (f === 'posicion') setErr('r-posicion', 'err-r-posicion', result.errors[f][0]);
+            if (f === 'puntos') setErr('r-puntos', 'err-r-puntos', result.errors[f][0]);
+            if (f === 'total_ganado') setErr('r-total_ganado', 'err-r-total_ganado', result.errors[f][0]);
+          }
+          if (key === 'parametros-ganancia') {
+            if (f === 'multiplicacion_por_juego') setErr('pg-multiplicacion', 'err-pg-multiplicacion', result.errors[f][0]);
+            if (f === 'bonus_por_racha') setErr('pg-bonus', 'err-pg-bonus', result.errors[f][0]);
           }
         }); 
       } 
@@ -779,6 +1245,12 @@ function confirmDelete(key, id) {
   if (key === 'usuarios') nombreItem = 'usuario';
   if (key === 'settings') nombreItem = 'configuración';
   if (key === 'apuestas') nombreItem = 'apuesta';
+  if (key === 'juegos') nombreItem = 'juego';
+  if (key === 'billeteras') nombreItem = 'billetera';
+  if (key === 'chats') nombreItem = 'chat';
+  if (key === 'rankings') nombreItem = 'ranking';
+  if (key === 'parametros-ganancia') nombreItem = 'parámetro';
+  if (key === 'notificaciones') nombreItem = 'notificación';
 
   document.getElementById('confirm-text').textContent = `¿Eliminar ${nombreItem} #${id}?`;
   
@@ -813,6 +1285,64 @@ function rowsFor(key, slice) {
   return slice.map(r => {
     const actions = `<td style="display:flex;gap:5px;"><button class="btn btn-sm" onclick="editRecord('${key}',${r.id})">✏️</button><button class="btn btn-sm btn-danger" onclick="confirmDelete('${key}',${r.id})">🗑</button></td>`;
     if (key === 'usuarios') return `<tr><td>#${r.id}</td><td><strong>${r.name}</strong></td><td>${r.email}</td><td>${(r.puntos_fidelidad || 0).toLocaleString()}</td><td>${badgeVip(r.nivel_vip || 0)}</td>${actions}</tr>`;
+
+    if (key === 'juegos') {
+      let estadoBadge = '';
+      if (r.estado === 'abierta') estadoBadge = '<span class="badge badge-success">Abierta</span>';
+      else if (r.estado === 'cerrada') estadoBadge = '<span class="badge badge-danger">Cerrada</span>';
+      else estadoBadge = '<span class="badge badge-warning">En juego</span>';
+
+      return `<tr>
+        <td>#${r.id}</td>
+        <td><strong>${r.nombre}</strong></td>
+        <td>${r.categoria}</td>
+        <td>${estadoBadge}</td>
+        ${actions}
+      </tr>`;
+    }
+
+    if (key === 'billeteras') {
+      return `<tr>
+        <td>#${r.id}</td>
+        <td>${parseFloat(r.saldoDisponible).toFixed(2)}</td>
+        <td><span class="badge badge-info">${r.moneda}</span></td>
+        ${actions}
+      </tr>`;
+    }
+
+    if (key === 'chats') {
+      let fecha = r.fechaCreacion ? new Date(r.fechaCreacion).toLocaleDateString() : '';
+      return `<tr>
+        <td>#${r.id}</td>
+        <td><strong>${r.nombre}</strong></td>
+        <td>${fecha}</td>
+        <td>${r.activo ? '<span class="badge badge-success">Sí</span>' : '<span class="badge badge-danger">No</span>'}</td>
+        ${actions}
+      </tr>`;
+    }
+
+  if (key === 'rankings') {
+    return `<tr>
+      <td>#${r.user_id}</td>
+      <td>${r.posicion}</td>
+      <td>${r.puntos}</td>
+      <td>${parseFloat(r.total_ganado).toFixed(2)}</td>
+      <td style="display:flex;gap:5px;">
+        <button class="btn btn-sm" onclick="editRecord('rankings',${r.user_id})">✏️</button>
+        <button class="btn btn-sm btn-danger" onclick="confirmDelete('rankings',${r.user_id})">🗑</button>
+      </td>
+    </tr>`;
+  }
+
+  if (key === 'parametros-ganancia') {
+    return `<tr>
+      <td>#${r.id}</td>
+      <td>${parseFloat(r.multiplicacion_por_juego).toFixed(2)}</td>
+      <td>${parseFloat(r.bonus_por_racha).toFixed(2)}</td>
+      ${actions}
+    </tr>`;
+  }
+
     if (key === 'settings') return `<tr><td><strong>${r.clave}</strong></td><td><span class="badge badge-gold">${r.valor}</span></td><td>${r.descripcion || '—'}</td><td>${r.activo ? '<span class="badge badge-success">Activo</span>' : '<span class="badge badge-danger">Inactivo</span>'}</td>${actions}</tr>`;
     if (key === 'apuestas') {
       let estadoBadge = '';
@@ -941,6 +1471,72 @@ async function submitForm(key) {
     if (pw) data.password = pw;
   }
 
+  if (key === 'juegos') {
+  const nombre = document.getElementById('j-nombre').value.trim();
+  const categoria = document.getElementById('j-categoria').value.trim();
+  const estado = document.getElementById('j-estado').value;
+
+  if (!nombre) { setErr('j-nombre', 'err-j-nombre', 'Obligatorio'); valid = false; }
+  if (!categoria) { setErr('j-categoria', 'err-j-categoria', 'Obligatorio'); valid = false; }
+  if (!estado) { setErr('j-estado', 'err-j-estado', 'Obligatorio'); valid = false; }
+  if (!valid) return;
+
+  data = { nombre, categoria, estado };
+  }
+
+  if (key === 'billeteras') {
+    const saldoDisponible = parseFloat(document.getElementById('b-saldo').value);
+    const moneda = document.getElementById('b-moneda').value;
+
+    if (isNaN(saldoDisponible) || saldoDisponible < 0) { setErr('b-saldo', 'err-b-saldo', 'Saldo inválido'); valid = false; }
+    if (!moneda) { setErr('b-moneda', 'err-b-moneda', 'Obligatorio'); valid = false; }
+    if (!valid) return;
+
+    data = { saldoDisponible, moneda };
+  }
+
+  if (key === 'chats') {
+    const nombre = document.getElementById('c-nombre').value.trim();
+    const fechaCreacion = document.getElementById('c-fecha').value;
+    const activo = document.getElementById('c-activo').value === 'true';
+
+    if (!nombre) { setErr('c-nombre', 'err-c-nombre', 'Obligatorio'); valid = false; }
+    if (!fechaCreacion) { setErr('c-fecha', 'err-c-fecha', 'Obligatorio'); valid = false; }
+    if (!valid) return;
+
+    data = { nombre, fechaCreacion, activo };
+  }
+
+  if (key === 'rankings') {
+    const user_id = parseInt(document.getElementById('r-user_id').value);
+    const posicion = parseInt(document.getElementById('r-posicion').value);
+    const puntos = parseInt(document.getElementById('r-puntos').value);
+    const total_ganado = parseFloat(document.getElementById('r-total_ganado').value);
+
+    if (!user_id) { setErr('r-user_id', 'err-r-user_id', 'Obligatorio'); valid = false; }
+    if (isNaN(posicion) || posicion < 1) { setErr('r-posicion', 'err-r-posicion', 'Posición inválida'); valid = false; }
+    if (isNaN(puntos) || puntos < 0) { setErr('r-puntos', 'err-r-puntos', 'Puntos inválidos'); valid = false; }
+    if (isNaN(total_ganado) || total_ganado < 0) { setErr('r-total_ganado', 'err-r-total_ganado', 'Valor inválido'); valid = false; }
+    if (!valid) return;
+
+    data = { user_id, posicion, puntos, total_ganado };
+  }
+
+  if (key === 'parametros-ganancia') {
+    const multiplicacion_por_juego = parseFloat(document.getElementById('pg-multiplicacion').value);
+    const bonus_por_racha = parseFloat(document.getElementById('pg-bonus').value);
+
+    if (isNaN(multiplicacion_por_juego) || multiplicacion_por_juego < 0) {
+      setErr('pg-multiplicacion', 'err-pg-multiplicacion', 'Valor inválido'); valid = false;
+    }
+    if (isNaN(bonus_por_racha) || bonus_por_racha < 0) {
+      setErr('pg-bonus', 'err-pg-bonus', 'Valor inválido'); valid = false;
+    }
+    if (!valid) return;
+
+    data = { multiplicacion_por_juego, bonus_por_racha };
+  }
+
   if (key === 'notificaciones') {
     const userId = parseInt(document.getElementById('n-user_id').value);
     const tipo = document.getElementById('n-tipo').value;
@@ -989,6 +1585,12 @@ async function submitForm(key) {
     if (key === 'usuarios') closeModal('modal-usuario');
     if (key === 'settings') closeModal('modal-setting');
     if (key === 'apuestas') closeModal('modal-apuesta');
+    if (key === 'notificaciones') closeModal('modal-notificacion');
+    if (key === 'juegos') closeModal('modal-juego');
+    if (key === 'billeteras') closeModal('modal-billetera');
+    if (key === 'chats') closeModal('modal-chat');
+    if (key === 'rankings') closeModal('modal-ranking');
+    if (key === 'parametros-ganancia') closeModal('modal-parametro-ganancia');
     
     editing[key] = null; 
     renderTable(key); 
@@ -1038,23 +1640,74 @@ function openNewModal(key) {
     openModal('modal-notificacion');
   }
 
+  if (key === 'juegos') {
+    document.getElementById('title-juego').textContent = 'Nuevo Juego';
+    document.getElementById('j-nombre').value = '';
+    document.getElementById('j-categoria').value = '';
+    document.getElementById('j-estado').value = 'abierta';
+    openModal('modal-juego');
+  }
+
+  if (key === 'billeteras') {
+    document.getElementById('title-billetera').textContent = 'Nueva Billetera';
+    document.getElementById('b-saldo').value = '';
+    document.getElementById('b-moneda').value = 'EUR';
+    openModal('modal-billetera');
+  }
+
+  if (key === 'chats') {
+    document.getElementById('title-chat').textContent = 'Nuevo Chat';
+    document.getElementById('c-nombre').value = '';
+    document.getElementById('c-fecha').value = new Date().toISOString().split('T')[0];
+    document.getElementById('c-activo').value = 'true';
+    openModal('modal-chat');
+  }
+
+  if (key === 'rankings') {
+    document.getElementById('title-ranking').textContent = 'Nuevo Ranking';
+    document.getElementById('r-user_id').value = '';
+    document.getElementById('r-posicion').value = '';
+    document.getElementById('r-puntos').value = '';
+    document.getElementById('r-total_ganado').value = '';
+    openModal('modal-ranking');
+  }
+
+  if (key === 'parametros-ganancia') {
+    document.getElementById('title-parametro-ganancia').textContent = 'Nuevo Parámetro';
+    document.getElementById('pg-multiplicacion').value = '';
+    document.getElementById('pg-bonus').value = '';
+    openModal('modal-parametro-ganancia');
+  }
+
 }
 
 // =========================== DASHBOARD ===========================
-async function loadDashboardStats() {
-  try {
-    const usersRes = await fetch('/admin/usuarios/data?per=100');
-    const usersData = await usersRes.json();
-    document.getElementById('stat-usuarios').textContent = usersData.total || usersData.data?.length || 0;
-    const settingsRes = await fetch('/admin/settings/data');
-    const settingsData = await settingsRes.json();
-    document.getElementById('stat-juegos').textContent = settingsData.data?.length || 0;
-    document.getElementById('actividad-reciente').innerHTML = '<div class="activity-list"><div class="activity-item">✅ Panel cargado correctamente</div><div class="activity-item">📊 Conectado a la base de datos</div></div>';
-  } catch (error) { document.getElementById('actividad-reciente').innerHTML = '<div>Error al cargar estadísticas</div>'; }
-}
+  async function loadDashboardStats() {
+    try {
+      const usersRes = await fetch('/admin/usuarios/data?per=100');
+      const usersData = await usersRes.json();
+      document.getElementById('stat-usuarios').textContent = usersData.total || usersData.data?.length || 0;
+
+      const apuestasRes = await fetch('/admin/apuestas/data?per=100');
+      const apuestasData = await apuestasRes.json();
+      document.getElementById('stat-apuestas').textContent = apuestasData.total || apuestasData.data?.length || 0;
+
+      const juegosRes = await fetch('/admin/juegos/data?per=100');
+      const juegosData = await juegosRes.json();
+      document.getElementById('stat-juegos').textContent = juegosData.total || juegosData.data?.length || 0;
+
+      document.getElementById('actividad-reciente').innerHTML =
+        '<div class="activity-list">' +
+        '<div class="activity-item">✅ Panel cargado correctamente</div>' +
+        '<div class="activity-item">📊 Conectado a la base de datos</div>' +
+        '</div>';
+    } catch (error) {
+      document.getElementById('actividad-reciente').innerHTML = '<div>Error al cargar estadísticas</div>';
+    }
+  }
 
 // =========================== INIT ===========================
-['usuarios', 'settings', 'apuestas','notificaciones'].forEach(k => renderTable(k));
+['usuarios', 'settings', 'apuestas', 'notificaciones', 'juegos', 'billeteras', 'chats', 'rankings', 'parametros-ganancia'].forEach(k => renderTable(k));
 document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); }); });
 </script>
 </body>

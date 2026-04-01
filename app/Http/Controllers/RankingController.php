@@ -2,76 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ranking;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 
-class RankingController extends Controller
+class ChatController extends Controller
 {
     public function getData(Request $request)
     {
-        $query = Ranking::query();
-        
+        $query = Chat::query();
+
         if ($request->has('search') && $request->search) {
-            $query->where('usuario', 'like', '%' . $request->search . '%');
+            $query->where('nombre', 'like', '%' . $request->search . '%');
         }
-        
+
         if ($request->has('activo') && $request->activo !== '') {
             $query->where('activo', $request->activo === 'true');
         }
-        
-        $sort = $request->get('sort', 'posicion');
+
+        $sort = $request->get('sort', 'id');
         $dir = $request->get('dir', 'asc');
         $query->orderBy($sort, $dir);
-        
+
         $perPage = $request->get('per', 6);
-        $rankings = $query->paginate($perPage);
-        
-        return response()->json($rankings);
+        return response()->json($query->paginate($perPage));
     }
-    
+
     public function show($id)
     {
-        $ranking = Ranking::findOrFail($id);
-        return response()->json($ranking);
+        return response()->json(Chat::findOrFail($id));
     }
-    
+
     public function store(Request $request)
     {
         $data = $request->validate([
-            'usuario' => 'required|string|max:255|unique:rankings',
-            'posicion' => 'required|integer|min:1',
-            'puntos' => 'required|integer|min:0',
-            'totalGanado' => 'required|numeric|min:0',
+            'nombre' => 'required|string|max:255',
+            'fechaCreacion' => 'required|date',
             'activo' => 'boolean',
         ]);
-        
-        $ranking = Ranking::create($data);
-        
-        return response()->json(['success' => true, 'data' => $ranking, 'message' => 'Ranking creado correctamente'], 201);
+
+        $chat = Chat::create($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $chat,
+            'message' => 'Chat creado correctamente'
+        ], 201);
     }
-    
+
     public function update(Request $request, $id)
     {
-        $ranking = Ranking::findOrFail($id);
-        
+        $chat = Chat::findOrFail($id);
+
         $data = $request->validate([
-            'usuario' => 'sometimes|string|max:255|unique:rankings,usuario,' . $id,
-            'posicion' => 'sometimes|integer|min:1',
-            'puntos' => 'sometimes|integer|min:0',
-            'totalGanado' => 'sometimes|numeric|min:0',
+            'nombre' => 'sometimes|string|max:255',
+            'fechaCreacion' => 'sometimes|date',
             'activo' => 'boolean',
         ]);
-        
-        $ranking->update($data);
-        
-        return response()->json(['success' => true, 'data' => $ranking, 'message' => 'Ranking actualizado correctamente']);
+
+        $chat->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $chat,
+            'message' => 'Chat actualizado correctamente'
+        ]);
     }
-    
+
     public function destroy($id)
     {
-        $ranking = Ranking::findOrFail($id);
-        $ranking->delete();
-        
-        return response()->json(['success' => true, 'message' => 'Ranking eliminado correctamente']);
+        $chat = Chat::findOrFail($id);
+        $chat->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Chat eliminado correctamente'
+        ]);
     }
 }

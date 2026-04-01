@@ -7,6 +7,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\JuegoController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\NotificacionController;
+use App\Http\Controllers\ParametroGananciaController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
@@ -25,7 +26,7 @@ Route::get('/', function () {
     return view('home', [
         'juegos' => Juego::all(),
         'ultimas_apuestas' => Apuesta::with(['user','juego'])->latest('fecha')->take(5)->get(),
-        'chats' => Chat::with('user')->latest()->take(5)->get(),
+        'chats' => Chat::latest()->take(5)->get(),
     ]);
 });
 
@@ -36,8 +37,8 @@ Route::get('/', function () {
 // --- ADMIN DASHBOARD ---
 Route::get('/admin', function () {
     $usuarios = User::paginate(10);
-    return view('admin.usuarios.index', compact('usuarios'));
-})->name('usuarios.index');
+    return view('layouts.admin', compact('usuarios'));
+})->name('admin.panel');
 
 // --- ADMIN USUARIOS (vistas de edición) ---
 Route::get('/admin/usuarios/{user}/edit', function ($user) {
@@ -65,6 +66,7 @@ Route::get('/admin/tabla/{tabla}', function ($tabla) {
         'notificaciones' => \App\Models\Notificacion::class,
         'rankings' => \App\Models\Ranking::class,
         'settings' => \App\Models\Setting::class,
+        'parametros_ganancia' => \App\Models\ParametroGanancia::class,
     ];
 
     if (!array_key_exists($tabla, $tablas)) {
@@ -96,8 +98,8 @@ Route::prefix('admin')->group(function () {
 
 // --- RUTAS PARA APUESTAS ---
 Route::prefix('admin')->group(function () {
-Route::get('/apuestas/data', [ApuestaController::class, 'getData'])->name('admin.apuestas.data');    
-Route::get('/apuestas/{apuesta}', [ApuestaController::class, 'show'])->name('admin.apuestas.show');
+    Route::get('/apuestas/data', [ApuestaController::class, 'getData'])->name('admin.apuestas.data');
+    Route::get('/apuestas/{apuesta}', [ApuestaController::class, 'show'])->name('admin.apuestas.show');
     Route::post('/apuestas', [ApuestaController::class, 'store'])->name('admin.apuestas.store');
     Route::put('/apuestas/{apuesta}', [ApuestaController::class, 'update'])->name('admin.apuestas.update');
     Route::delete('/apuestas/{apuesta}', [ApuestaController::class, 'destroy'])->name('admin.apuestas.destroy');
@@ -105,20 +107,20 @@ Route::get('/apuestas/{apuesta}', [ApuestaController::class, 'show'])->name('adm
 
 // --- RUTAS PARA JUEGOS ---
 Route::prefix('admin')->group(function () {
-    Route::get('/juegos/data', [JuegoController::class, 'listar'])->name('admin.juegos.data');
-    Route::get('/juegos/{juego}', [JuegoController::class, 'ver'])->name('admin.juegos.show');
-    Route::post('/juegos', [JuegoController::class, 'crear'])->name('admin.juegos.store');
-    Route::put('/juegos/{juego}', [JuegoController::class, 'actualizar'])->name('admin.juegos.update');
-    Route::delete('/juegos/{juego}', [JuegoController::class, 'eliminar'])->name('admin.juegos.destroy');
+    Route::get('/juegos/data', [JuegoController::class, 'getData'])->name('admin.juegos.data');
+    Route::get('/juegos/{juego}', [JuegoController::class, 'show'])->name('admin.juegos.show');
+    Route::post('/juegos', [JuegoController::class, 'store'])->name('admin.juegos.store');
+    Route::put('/juegos/{juego}', [JuegoController::class, 'update'])->name('admin.juegos.update');
+    Route::delete('/juegos/{juego}', [JuegoController::class, 'destroy'])->name('admin.juegos.destroy');
 });
 
 // --- RUTAS PARA BILLETERAS ---
 Route::prefix('admin')->group(function () {
-    Route::get('/billeteras/data', [BilleteraController::class, 'listar'])->name('admin.billeteras.data');
-    Route::get('/billeteras/{billetera}', [BilleteraController::class, 'ver'])->name('admin.billeteras.show');
-    Route::post('/billeteras', [BilleteraController::class, 'crear'])->name('admin.billeteras.store');
-    Route::put('/billeteras/{billetera}', [BilleteraController::class, 'actualizar'])->name('admin.billeteras.update');
-    Route::delete('/billeteras/{billetera}', [BilleteraController::class, 'eliminar'])->name('admin.billeteras.destroy');
+    Route::get('/billeteras/data', [BilleteraController::class, 'getData'])->name('admin.billeteras.data');
+    Route::get('/billeteras/{billetera}', [BilleteraController::class, 'show'])->name('admin.billeteras.show');
+    Route::post('/billeteras', [BilleteraController::class, 'store'])->name('admin.billeteras.store');
+    Route::put('/billeteras/{billetera}', [BilleteraController::class, 'update'])->name('admin.billeteras.update');
+    Route::delete('/billeteras/{billetera}', [BilleteraController::class, 'destroy'])->name('admin.billeteras.destroy');
 });
 
 // --- RUTAS PARA NOTIFICACIONES ---
@@ -132,11 +134,11 @@ Route::prefix('admin')->group(function () {
 
 // --- RUTAS PARA CHATS ---
 Route::prefix('admin')->group(function () {
-    Route::get('/chats/data', [ChatController::class, 'listar'])->name('admin.chats.data');
-    Route::get('/chats/{chat}', [ChatController::class, 'ver'])->name('admin.chats.show');
-    Route::post('/chats', [ChatController::class, 'crear'])->name('admin.chats.store');
-    Route::put('/chats/{chat}', [ChatController::class, 'actualizar'])->name('admin.chats.update');
-    Route::delete('/chats/{chat}', [ChatController::class, 'eliminar'])->name('admin.chats.destroy');
+    Route::get('/chats/data', [ChatController::class, 'getData'])->name('admin.chats.data');
+    Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('admin.chats.show');
+    Route::post('/chats', [ChatController::class, 'store'])->name('admin.chats.store');
+    Route::put('/chats/{chat}', [ChatController::class, 'update'])->name('admin.chats.update');
+    Route::delete('/chats/{chat}', [ChatController::class, 'destroy'])->name('admin.chats.destroy');
 });
 
 // --- RUTAS PARA MENSAJES ---
@@ -150,11 +152,11 @@ Route::prefix('admin')->group(function () {
 
 // --- RUTAS PARA RANKINGS ---
 Route::prefix('admin')->group(function () {
-    Route::get('/rankings/data', [RankingController::class, 'listar'])->name('admin.rankings.data');
-    Route::get('/rankings/{ranking}', [RankingController::class, 'ver'])->name('admin.rankings.show');
-    Route::post('/rankings', [RankingController::class, 'crear'])->name('admin.rankings.store');
-    Route::put('/rankings/{ranking}', [RankingController::class, 'actualizar'])->name('admin.rankings.update');
-    Route::delete('/rankings/{ranking}', [RankingController::class, 'eliminar'])->name('admin.rankings.destroy');
+    Route::get('/rankings/data', [RankingController::class, 'getData'])->name('admin.rankings.data');
+    Route::get('/rankings/{ranking}', [RankingController::class, 'show'])->name('admin.rankings.show');
+    Route::post('/rankings', [RankingController::class, 'store'])->name('admin.rankings.store');
+    Route::put('/rankings/{ranking}', [RankingController::class, 'update'])->name('admin.rankings.update');
+    Route::delete('/rankings/{ranking}', [RankingController::class, 'destroy'])->name('admin.rankings.destroy');
 });
 
 // --- RUTAS PARA SETTINGS ---
@@ -164,6 +166,15 @@ Route::prefix('admin')->group(function () {
     Route::post('/settings', [SettingController::class, 'store'])->name('admin.settings.store');
     Route::put('/settings/{setting}', [SettingController::class, 'update'])->name('admin.settings.update');
     Route::delete('/settings/{setting}', [SettingController::class, 'destroy'])->name('admin.settings.destroy');
+});
+
+// --- RUTAS PARA PARÁMETROS DE GANANCIA ---
+Route::prefix('admin')->group(function () {
+    Route::get('/parametros-ganancia/data', [ParametroGananciaController::class, 'getData'])->name('admin.parametros_ganancia.data');
+    Route::get('/parametros-ganancia/{parametro}', [ParametroGananciaController::class, 'show'])->name('admin.parametros_ganancia.show');
+    Route::post('/parametros-ganancia', [ParametroGananciaController::class, 'store'])->name('admin.parametros_ganancia.store');
+    Route::put('/parametros-ganancia/{parametro}', [ParametroGananciaController::class, 'update'])->name('admin.parametros_ganancia.update');
+    Route::delete('/parametros-ganancia/{parametro}', [ParametroGananciaController::class, 'destroy'])->name('admin.parametros_ganancia.destroy');
 });
 
 // ============================================================
@@ -190,20 +201,20 @@ Route::controller(ApuestaController::class)->group(function () {
 
 // --- JUEGOS API ---
 Route::controller(JuegoController::class)->group(function () {
-    Route::get('juegos', 'listar');
-    Route::get('juegos/{juego}', 'ver');
-    Route::post('juegos', 'crear');
-    Route::put('juegos/{juego}', 'actualizar');
-    Route::delete('juegos/{juego}', 'eliminar');
+    Route::get('juegos', 'getData');
+    Route::get('juegos/{juego}', 'show');
+    Route::post('juegos', 'store');
+    Route::put('juegos/{juego}', 'update');
+    Route::delete('juegos/{juego}', 'destroy');
 });
 
 // --- BILLETERAS API ---
 Route::controller(BilleteraController::class)->group(function () {
-    Route::get('billeteras', 'listar');
-    Route::get('billeteras/{billetera}', 'ver');
-    Route::post('billeteras', 'crear');
-    Route::put('billeteras/{billetera}', 'actualizar');
-    Route::delete('billeteras/{billetera}', 'eliminar');
+    Route::get('billeteras', 'getData');
+    Route::get('billeteras/{billetera}', 'show');
+    Route::post('billeteras', 'store');
+    Route::put('billeteras/{billetera}', 'update');
+    Route::delete('billeteras/{billetera}', 'destroy');
 });
 
 // --- NOTIFICACIONES API ---
@@ -217,11 +228,11 @@ Route::controller(NotificacionController::class)->group(function () {
 
 // --- CHATS API ---
 Route::controller(ChatController::class)->group(function () {
-    Route::get('chats', 'listar');
-    Route::get('chats/{chat}', 'ver');
-    Route::post('chats', 'crear');
-    Route::put('chats/{chat}', 'actualizar');
-    Route::delete('chats/{chat}', 'eliminar');
+    Route::get('chats', 'getData');
+    Route::get('chats/{chat}', 'show');
+    Route::post('chats', 'store');
+    Route::put('chats/{chat}', 'update');
+    Route::delete('chats/{chat}', 'destroy');
 });
 
 // --- MENSAJES API ---
@@ -235,11 +246,11 @@ Route::controller(MensajeController::class)->group(function () {
 
 // --- RANKINGS API ---
 Route::controller(RankingController::class)->group(function () {
-    Route::get('rankings', 'listar');
-    Route::get('rankings/{ranking}', 'ver');
-    Route::post('rankings', 'crear');
-    Route::put('rankings/{ranking}', 'actualizar');
-    Route::delete('rankings/{ranking}', 'eliminar');
+    Route::get('rankings', 'getData');
+    Route::get('rankings/{ranking}', 'show');
+    Route::post('rankings', 'store');
+    Route::put('rankings/{ranking}', 'update');
+    Route::delete('rankings/{ranking}', 'destroy');
 });
 
 // --- SETTINGS API ---
@@ -249,4 +260,13 @@ Route::controller(SettingController::class)->group(function () {
     Route::post('settings', 'crear');
     Route::put('settings/{setting}', 'actualizar');
     Route::delete('settings/{setting}', 'eliminar');
+});
+
+// --- PARÁMETROS DE GANANCIA API ---
+Route::controller(ParametroGananciaController::class)->group(function () {
+    Route::get('parametros-ganancia', 'getData');
+    Route::get('parametros-ganancia/{parametro}', 'show');
+    Route::post('parametros-ganancia', 'store');
+    Route::put('parametros-ganancia/{parametro}', 'update');
+    Route::delete('parametros-ganancia/{parametro}', 'destroy');
 });

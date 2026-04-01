@@ -1,5 +1,7 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use App\Models\Chat;
 
@@ -7,11 +9,24 @@ class ChatSeeder extends Seeder
 {
     public function run(): void
     {
-        // Asegúrate de que exista un usuario 1 en la tabla users
+        Chat::query()->delete();
+
         Chat::create([
             'nombre' => 'Sala Principal',
+            'fechaCreacion' => '2026-04-01',
             'activo' => true,
-            'user_id' => 1,
+        ]);
+
+        Chat::create([
+            'nombre' => 'Apuestas en Vivo',
+            'fechaCreacion' => '2026-04-02',
+            'activo' => true,
+        ]);
+
+        Chat::create([
+            'nombre' => 'Archivo General',
+            'fechaCreacion' => '2026-03-20',
+            'activo' => false,
         ]);
     }
 }
