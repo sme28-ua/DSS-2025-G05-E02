@@ -2,34 +2,23 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use App\Models\Ranking;
+use Illuminate\Support\Facades\DB;
 
 class RankingSeeder extends Seeder
 {
     public function run(): void
     {
-        Ranking::query()->delete();
+        $now = Carbon::now();
+        $users = DB::table('users')->pluck('id', 'email');
 
-        Ranking::create([
-            'user_id' => 1,
-            'posicion' => 1,
-            'puntos' => 1500,
-            'total_ganado' => 4200.50,
-        ]);
-
-        Ranking::create([
-            'user_id' => 2,
-            'posicion' => 2,
-            'puntos' => 1200,
-            'total_ganado' => 3100.00,
-        ]);
-
-        Ranking::create([
-            'user_id' => 3,
-            'posicion' => 3,
-            'puntos' => 950,
-            'total_ganado' => 2100.25,
+        DB::table('rankings')->insert([
+            ['user_id' => $users['sofia@bookie20.test'], 'posicion' => 1, 'puntos' => 9850.50, 'total_ganado' => 15240.00, 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['lucia@bookie20.test'], 'posicion' => 2, 'puntos' => 7310.00, 'total_ganado' => 10210.25, 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['carlos@bookie20.test'], 'posicion' => 3, 'puntos' => 4125.75, 'total_ganado' => 4980.00, 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['daniel@bookie20.test'], 'posicion' => 4, 'puntos' => 2980.00, 'total_ganado' => 3120.40, 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['valentina@bookie20.test'], 'posicion' => 5, 'puntos' => 1875.25, 'total_ganado' => 2015.90, 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }

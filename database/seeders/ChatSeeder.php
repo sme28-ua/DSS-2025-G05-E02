@@ -2,31 +2,22 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use App\Models\Chat;
+use Illuminate\Support\Facades\DB;
 
 class ChatSeeder extends Seeder
 {
     public function run(): void
     {
-        Chat::query()->delete();
+        $now = Carbon::now();
+        $users = DB::table('users')->pluck('id', 'email');
 
-        Chat::create([
-            'nombre' => 'Sala Principal',
-            'fechaCreacion' => '2026-04-01',
-            'activo' => true,
-        ]);
-
-        Chat::create([
-            'nombre' => 'Apuestas en Vivo',
-            'fechaCreacion' => '2026-04-02',
-            'activo' => true,
-        ]);
-
-        Chat::create([
-            'nombre' => 'Archivo General',
-            'fechaCreacion' => '2026-03-20',
-            'activo' => false,
+        DB::table('chats')->insert([
+            ['nombre' => 'Soporte VIP Lucía', 'activo' => true, 'user_id' => $users['lucia@bookie20.test'], 'created_at' => $now->copy()->subDays(7), 'updated_at' => $now],
+            ['nombre' => 'Mesa Privada Sofía', 'activo' => true, 'user_id' => $users['sofia@bookie20.test'], 'created_at' => $now->copy()->subDays(5), 'updated_at' => $now],
+            ['nombre' => 'Incidencia de cobro Mateo', 'activo' => false, 'user_id' => $users['mateo@bookie20.test'], 'created_at' => $now->copy()->subDays(3), 'updated_at' => $now],
+            ['nombre' => 'Atención al jugador Carlos', 'activo' => true, 'user_id' => $users['carlos@bookie20.test'], 'created_at' => $now->copy()->subDay(), 'updated_at' => $now],
         ]);
     }
 }

@@ -282,6 +282,7 @@
       <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
       <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
       <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> ParámetrosGanancia</button>
     </nav>
     <div class="sidebar-bottom">
       <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
@@ -331,6 +332,7 @@
       <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
       <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
       <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
     </nav>
     <div class="sidebar-bottom">
       <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
@@ -372,6 +374,7 @@
       <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
       <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
       <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
     </nav>
   </aside>
   <div class="main">
@@ -684,8 +687,9 @@
           <div class="toolbar-right"><span id="count-rankings"></span></div>
         </div>
         <table>
-          <thead>
+           <thead>
             <tr>
+              <th onclick="sortRender('rankings','id',this)">ID <span class="sort-arrow">⇅</span></th>
               <th onclick="sortRender('rankings','user_id',this)">User ID <span class="sort-arrow">⇅</span></th>
               <th onclick="sortRender('rankings','posicion',this)">Posición <span class="sort-arrow">⇅</span></th>
               <th onclick="sortRender('rankings','puntos',this)">Puntos <span class="sort-arrow">⇅</span></th>
@@ -747,6 +751,7 @@
           <thead>
             <tr>
               <th onclick="sortRender('parametros-ganancia','id',this)">ID <span class="sort-arrow">⇅</span></th>
+              <th onclick="sortRender('parametros-ganancia','juego_id',this)">ID Juego <span class="sort-arrow">⇅</span></th>
               <th onclick="sortRender('parametros-ganancia','multiplicacion_por_juego',this)">Multiplicación por juego <span class="sort-arrow">⇅</span></th>
               <th onclick="sortRender('parametros-ganancia','bonus_por_racha',this)">Bonus por racha <span class="sort-arrow">⇅</span></th>
               <th>Acciones</th>
@@ -776,6 +781,7 @@
       <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
       <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
       <button class="nav-item" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
     </nav>
     <div class="sidebar-bottom">
       <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
@@ -845,6 +851,7 @@
       <button class="nav-item" onclick="goTo('chats')"><span class="nav-icon">💬</span> Chats / Mensajes</button>
       <button class="nav-item" onclick="goTo('rankings')"><span class="nav-icon">🏆</span> Rankings</button>
       <button class="nav-item active" onclick="goTo('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="goTo('parametros-ganancia')"><span class="nav-icon">💰</span> Parámetros Ganancia</button>
     </nav>
     <div class="sidebar-bottom">
       <button class="nav-item"><span class="nav-icon">⚙</span> Configuración</button>
@@ -1046,16 +1053,25 @@
 <div class="modal-overlay" id="modal-parametro-ganancia">
   <div class="modal">
     <h2 id="title-parametro-ganancia">Nuevo Parámetro</h2>
+
+    <div class="form-group">
+      <label class="form-label">ID Juego *</label>
+      <input type="number" class="form-control" id="pg-juego_id">
+      <div class="error-msg" id="err-pg-juego_id"></div>
+    </div>
+
     <div class="form-group">
       <label class="form-label">Multiplicación por juego *</label>
       <input type="number" step="0.01" class="form-control" id="pg-multiplicacion">
       <div class="error-msg" id="err-pg-multiplicacion"></div>
     </div>
+
     <div class="form-group">
       <label class="form-label">Bonus por racha *</label>
       <input type="number" step="0.01" class="form-control" id="pg-bonus">
       <div class="error-msg" id="err-pg-bonus"></div>
     </div>
+
     <div class="form-actions">
       <button class="btn" onclick="closeModal('modal-parametro-ganancia')">Cancelar</button>
       <button class="btn btn-primary" onclick="submitForm('parametros-ganancia')">Guardar</button>
@@ -1073,7 +1089,7 @@ let state = {};
   state[k] = { page: 1, per: 6, sort: 'id', dir: 1, total: 0, lastPage: 1 };
 });
 state['settings'].sort = 'clave';
-state['rankings'].sort = 'user_id';
+state['rankings'].sort = 'id';
 let editing = {};
 let deleteFn = null;
 
@@ -1198,6 +1214,7 @@ async function saveToAPI(key, data, id = null) {
             if (f === 'total_ganado') setErr('r-total_ganado', 'err-r-total_ganado', result.errors[f][0]);
           }
           if (key === 'parametros-ganancia') {
+            if (f === 'juego_id') setErr('pg-juego_id', 'err-pg-juego_id', result.errors[f][0]);
             if (f === 'multiplicacion_por_juego') setErr('pg-multiplicacion', 'err-pg-multiplicacion', result.errors[f][0]);
             if (f === 'bonus_por_racha') setErr('pg-bonus', 'err-pg-bonus', result.errors[f][0]);
           }
@@ -1323,13 +1340,14 @@ function rowsFor(key, slice) {
 
   if (key === 'rankings') {
     return `<tr>
-      <td>#${r.user_id}</td>
+      <td>#${r.id}</td>
+      <td>${r.user_id}</td>
       <td>${r.posicion}</td>
-      <td>${r.puntos}</td>
+      <td>${parseFloat(r.puntos).toFixed(2)}</td>
       <td>${parseFloat(r.total_ganado).toFixed(2)}</td>
       <td style="display:flex;gap:5px;">
-        <button class="btn btn-sm" onclick="editRecord('rankings',${r.user_id})">✏️</button>
-        <button class="btn btn-sm btn-danger" onclick="confirmDelete('rankings',${r.user_id})">🗑</button>
+        <button class="btn btn-sm" onclick="editRecord('rankings',${r.id})">✏️</button>
+        <button class="btn btn-sm btn-danger" onclick="confirmDelete('rankings',${r.id})">🗑</button>
       </td>
     </tr>`;
   }
@@ -1337,6 +1355,7 @@ function rowsFor(key, slice) {
   if (key === 'parametros-ganancia') {
     return `<tr>
       <td>#${r.id}</td>
+      <td>${r.juego_id}</td>
       <td>${parseFloat(r.multiplicacion_por_juego).toFixed(2)}</td>
       <td>${parseFloat(r.bonus_por_racha).toFixed(2)}</td>
       ${actions}
@@ -1451,6 +1470,23 @@ async function editRecord(key, id) {
       document.getElementById('a-fecha').value = record.fecha ? record.fecha.split(' ')[0] : '';
       openModal('modal-apuesta');
     }
+    if (key === 'rankings') {
+      document.getElementById('title-ranking').textContent = 'Editar Ranking';
+      document.getElementById('r-user_id').value = record.user_id;
+      document.getElementById('r-posicion').value = record.posicion;
+      document.getElementById('r-puntos').value = record.puntos;
+      document.getElementById('r-total_ganado').value = record.total_ganado;
+      openModal('modal-ranking');
+    }
+
+    if (key === 'parametros-ganancia') {
+      document.getElementById('title-parametro-ganancia').textContent = 'Editar Parámetro';
+      document.getElementById('pg-juego_id').value = record.juego_id;
+      document.getElementById('pg-multiplicacion').value = record.multiplicacion_por_juego;
+      document.getElementById('pg-bonus').value = record.bonus_por_racha;
+      openModal('modal-parametro-ganancia');
+    }
+
   } catch (error) { toast('Error al cargar', 'danger'); }
 }
 
@@ -1523,18 +1559,25 @@ async function submitForm(key) {
   }
 
   if (key === 'parametros-ganancia') {
+    const juego_id = parseInt(document.getElementById('pg-juego_id').value);
     const multiplicacion_por_juego = parseFloat(document.getElementById('pg-multiplicacion').value);
     const bonus_por_racha = parseFloat(document.getElementById('pg-bonus').value);
 
+    if (!juego_id) {
+      setErr('pg-juego_id', 'err-pg-juego_id', 'Juego obligatorio');
+      valid = false;
+    }
     if (isNaN(multiplicacion_por_juego) || multiplicacion_por_juego < 0) {
-      setErr('pg-multiplicacion', 'err-pg-multiplicacion', 'Valor inválido'); valid = false;
+      setErr('pg-multiplicacion', 'err-pg-multiplicacion', 'Valor inválido');
+      valid = false;
     }
     if (isNaN(bonus_por_racha) || bonus_por_racha < 0) {
-      setErr('pg-bonus', 'err-pg-bonus', 'Valor inválido'); valid = false;
+      setErr('pg-bonus', 'err-pg-bonus', 'Valor inválido');
+      valid = false;
     }
     if (!valid) return;
 
-    data = { multiplicacion_por_juego, bonus_por_racha };
+    data = { juego_id, multiplicacion_por_juego, bonus_por_racha };
   }
 
   if (key === 'notificaciones') {
@@ -1674,6 +1717,7 @@ function openNewModal(key) {
 
   if (key === 'parametros-ganancia') {
     document.getElementById('title-parametro-ganancia').textContent = 'Nuevo Parámetro';
+    document.getElementById('pg-juego_id').value = '';
     document.getElementById('pg-multiplicacion').value = '';
     document.getElementById('pg-bonus').value = '';
     openModal('modal-parametro-ganancia');

@@ -2,43 +2,28 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use App\Models\Apuesta;
-use App\Models\User;
-use App\Models\Juego;
+use Illuminate\Support\Facades\DB;
 
 class ApuestaSeeder extends Seeder
 {
     public function run(): void
     {
-        Apuesta::query()->delete();
+        $now = Carbon::now();
 
-        $user1 = User::first();
-        $user2 = User::skip(1)->first() ?? $user1;
+        $users = DB::table('users')->pluck('id', 'email');
+        $juegos = DB::table('juegos')->pluck('id', 'nombre');
 
-        $juego1 = Juego::first();
-        $juego2 = Juego::skip(1)->first() ?? $juego1;
-
-        if (!$user1 || !$juego1) {
-            return;
-        }
-
-        Apuesta::create([
-            'user_id' => $user1->id,
-            'juego_id' => $juego1->id,
-            'monto' => 50,
-            'cuota' => 2.5,
-            'estado' => 'pendiente',
-            'fecha' => now(),
-        ]);
-
-        Apuesta::create([
-            'user_id' => $user2->id,
-            'juego_id' => $juego2->id,
-            'monto' => 100,
-            'cuota' => 1.8,
-            'estado' => 'ganada',
-            'fecha' => now()->subDay(),
+        DB::table('apuestas')->insert([
+            ['user_id' => $users['carlos@bookie20.test'], 'juego_id' => $juegos['Ruleta Europea'], 'monto' => 25.00, 'cuota' => 1.80, 'estado' => 'pendiente', 'fecha' => $now->copy()->subHours(12), 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['lucia@bookie20.test'], 'juego_id' => $juegos['Blackjack VIP'], 'monto' => 150.00, 'cuota' => 2.35, 'estado' => 'ganada', 'fecha' => $now->copy()->subDay(), 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['mateo@bookie20.test'], 'juego_id' => $juegos['Tragamonedas Pharaoh Gold'], 'monto' => 10.00, 'cuota' => 4.20, 'estado' => 'perdida', 'fecha' => $now->copy()->subDays(2), 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['sofia@bookie20.test'], 'juego_id' => $juegos['Bacará Live'], 'monto' => 500.00, 'cuota' => 1.55, 'estado' => 'ganada', 'fecha' => $now->copy()->subHours(30), 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['daniel@bookie20.test'], 'juego_id' => $juegos['Poker Texas Hold’em'], 'monto' => 45.50, 'cuota' => 2.10, 'estado' => 'pendiente', 'fecha' => $now->copy()->subHours(6), 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['valentina@bookie20.test'], 'juego_id' => $juegos['Aviator Crash'], 'monto' => 30.00, 'cuota' => 3.40, 'estado' => 'perdida', 'fecha' => $now->copy()->subDays(4), 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['lucia@bookie20.test'], 'juego_id' => $juegos['Ruleta Europea'], 'monto' => 80.00, 'cuota' => 1.95, 'estado' => 'ganada', 'fecha' => $now->copy()->subDays(5), 'created_at' => $now, 'updated_at' => $now],
+            ['user_id' => $users['carlos@bookie20.test'], 'juego_id' => $juegos['Aviator Crash'], 'monto' => 15.00, 'cuota' => 5.00, 'estado' => 'pendiente', 'fecha' => $now->copy()->subHours(2), 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }

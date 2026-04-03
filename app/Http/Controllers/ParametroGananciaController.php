@@ -9,14 +9,24 @@ class ParametroGananciaController extends Controller
 {
     public function getData(Request $request)
     {
-        $query = ParametroGanancia::query();
+        $query = ParametroGanancia::with('juego');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where('juego_id', 'like', "%{$search}%")
+                ->orWhereHas('juego', function ($q) use ($search) {
+                    $q->where('nombre', 'like', "%{$search}%");
+                });
+        }
 
         $sort = $request->get('sort', 'id');
         $dir = $request->get('dir', 'asc');
-        $query->orderBy($sort, $dir);
+        $per = (int) $request->get('per', 6);
 
-        $perPage = $request->get('per', 6);
-        return response()->json($query->paginate($perPage));
+        return response()->json(
+            $query->orderBy($sort, $dir)->paginate($per)
+        );
     }
 
     public function show($id)
@@ -27,6 +37,7 @@ class ParametroGananciaController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'juego_id' => 'required|exists:juegos,id',
             'multiplicacion_por_juego' => 'required|numeric|min:0',
             'bonus_por_racha' => 'required|numeric|min:0',
         ]);
@@ -45,6 +56,7 @@ class ParametroGananciaController extends Controller
         $parametro = ParametroGanancia::findOrFail($id);
 
         $data = $request->validate([
+            'juego_id' => 'sometimes|exists:juegos,id',
             'multiplicacion_por_juego' => 'sometimes|numeric|min:0',
             'bonus_por_racha' => 'sometimes|numeric|min:0',
         ]);
